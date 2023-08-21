@@ -7,7 +7,7 @@
         v-for="option in getQuestion.answers"
         :key="option.text"
       >
-        <div class="answer" @click="$emit('selectedAnswer', option.is_correct)">
+        <div class="answer" @click="emits('selectedAnswer', option.is_correct)">
           {{ option.text }}
         </div>
       </div>
@@ -15,16 +15,11 @@
   </transition>
 </template>
 
-<script>
-export default {
-  name: "Question",
-  props: ["questionList", "questionAnswered"],
-  emits: ["selectedAnswer"],
+<script setup>
+import { computed } from "vue";
 
-  computed: {
-    getQuestion() {
-      return this.questionList[this.questionAnswered];
-    },
-  },
-};
+const props = defineProps(["questionList", "questionAnswered"]);
+const emits = defineEmits(["selectedAnswer"]);
+
+const getQuestion = computed(() => props.questionList[props.questionAnswered]);
 </script>
